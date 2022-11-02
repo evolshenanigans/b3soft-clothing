@@ -19,36 +19,31 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  console.log(formFields);
-
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
+      const { user } = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
       resetFormFields();
     } catch (error) {
-      switch(error.code) {
-        case 'auth/wrong-password':
-          alert('Wrong password');
+      switch (error.code) {
+        case "auth/wrong-password":
+          alert("Wrong password");
           break;
-        case 'auth/user-not-found':
-          alert('User not found');
+        case "auth/user-not-found":
+          alert("User not found");
           break;
         default:
-
-      console.log(error);
+          console.log(error);
       }
     }
   };
@@ -81,7 +76,7 @@ const SignInForm = () => {
         />
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button type='button' buttonType="google" onClick={signInWithGoogle}>
+          <Button type="button" buttonType="google" onClick={signInWithGoogle}>
             Google Sign In
           </Button>
         </div>
